@@ -17,6 +17,7 @@
 			var targetPointOutgoing:Point = new Point(0,0);
 			var targetPointIncomingA:Point = new Point(0,0);
 			var targetPointIncomingB:Point = new Point(0,0);
+			
 			switch (direction){
 				case "left":
 					targetPointOutgoing.y = outgoing.y;
