@@ -14,12 +14,12 @@
 		private var canvas:Canvas;
 		private var resourceManager:ResourceManager;
 		//temp
-		private var testLaunchURL:String = "C:/Users/1/Documents/GitHub/keyword-games/Keyword Games and Activities/aa.key";
+		private var testLaunchURL:String = "C:/Users/1/Documents/GitHub/keyword-games/Keyword Games and Activities/bin/key/BF1U1L5.key";
 		//
 
 		public function Document() {
 			
-		
+			
 			//var filePacker:FilePacker = new FilePacker(new Array(apple, appleMask, caterpillar, caterpillarMask, watermelon, watermelonMask), "BF1U1L5", new Array(appleInit, caterpillarInit, watermelonInit));
 			NativeApplication.nativeApplication.addEventListener (InvokeEvent.INVOKE, onInvokeEvent);
 			resourceManager = new ResourceManager();
@@ -48,6 +48,7 @@
 			}
 			
 			this.addChild (canvas);
+			canvas.mask = maskAll;
 		}
 		
 		private function keyFileLoadComplete(e:ResourceManagerEvent):void{

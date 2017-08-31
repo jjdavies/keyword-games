@@ -2,7 +2,7 @@
 	
 	import flash.display.*;
 	import utils.GameEvent;
-	import game.Coloring;
+	import game.*;
 	
 	public class Canvas extends MovieClip{
 		
@@ -12,8 +12,8 @@
 		private var loadedKeyData:Array;
 		
 		//temp
-		private var testLaunchURL:String = "C:/Users/1/Documents/GitHub/keyword-games/Keyword Games and Activities/aa.key";
-		//
+		private var testLaunchURL:String = "C:/Users/1/Documents/GitHub/keyword-games/Keyword Games and Activities/bin/key/BF2U1L1.key";
+		//C:\Users\1\Documents\GitHub\keyword-games\Keyword Games and Activities\bin\key
 
 		public function Canvas(launchFileURL:String = null) {
 			transitioner = new Transitioner();
@@ -38,8 +38,14 @@
 		}
 		
 		private function gameSelected (e:GameEvent):void{
-			var game:Coloring = new Coloring(loadedKeyData);
-			transitioner.draw (lessonContent, game);
+			if (e.select == "spyglass"){
+				var spyglassGame:Spyglass = new Spyglass(loadedKeyData);
+				transitioner.fade (lessonContent, spyglassGame, true, 0x00FF00);
+			} else {
+				var game2:Coloring = new Coloring(loadedKeyData);
+				transitioner.draw (lessonContent, game2);
+			}
+			
 		}
 		
 

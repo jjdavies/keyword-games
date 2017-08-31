@@ -6,13 +6,19 @@
 	import flash.utils.*;
 	import flash.geom.*;
 	import utils.GameEvent;
+	import flash.net.URLRequest;
 	
 	public class ResourceManager extends EventDispatcher{
 		
 		private var _loadedKeyData:Array;
+		private var loaders:Array;
+		private var loadComplete:int;
+		private var dataLoadComplete:Boolean;
+		
 
 		public function ResourceManager(){
 			_loadedKeyData = new Array();
+			loaders = new Array();
 			trace ('const');
 		}
 		
@@ -28,55 +34,101 @@
 			//Parse Images
 			var keyData:Array = new Array();
 			var ba:ByteArray = e.target.data;
-			var lessonCode:String = ba.readUTFBytes (7);
-			var availableGames:int = ba.readFloat();
-			var numberOfImages:int = ba.readFloat();
-			keyData.push (lessonCode, availableGames, numberOfImages);
+			var lessonCode:String = readVar(ba)[0];
+			trace (lessonCode);
+			var numberOfImages:int = readVar(ba)[0];
+			var availableGames:int = readVar(ba)[0];
+			keyData.push (lessonCode, numberOfImages, availableGames);
 			var imgArr:Array = new Array();
 			for (var i:int = 0; i < numberOfImages; i++){
 				
-				var sizeOfByteArray:int = ba.readFloat();
-				var imageWidth:Number = ba.readFloat();
-				var imageHeight:Number = ba.readFloat();
-				//trace (imageWidth, imageHeight, ba.position);
-				var imgByteArray:ByteArray = new ByteArray();
-				ba.readBytes (imgByteArray, 0, sizeOfByteArray);
-				//create image
-				var bitmapData:BitmapData = new BitmapData(imageWidth, imageHeight);
-				bitmapData.setPixels (new Rectangle (0, 0, imageWidth, imageHeight), imgByteArray);
-				var bitmap:Bitmap = new Bitmap(bitmapData);
-				imgArr.push (bitmap);
+				var l:Loader = new Loader();
+				var url:URLRequest = new URLRequest (readVar(ba)[0]);
+				l.contentLoaderInfo.addEventListener (Event.COMPLETE, loadCompleted);
+				loaders.push (l);
+				l.load (url);
 			}
-			keyData.push (imgArr);
+			keyData.push (loaders);
 			//Parse Images End
 			//Parse Game Data
-			var gameCode:int = ba.readFloat();
-			switch (gameCode){
-				case 0://coloring game data
-					var imagesInColoring:int = ba.readFloat();
-					var coloringData:Array = new Array();
-					for (var i:int = 0; i < imagesInColoring; i++){
-						var imgRef:int = ba.readFloat();
-						var maskRef:int = ba.readFloat();
-						var initPos:Point = new Point (ba.readFloat(), ba.readFloat());
-						trace ('initPos', initPos);
-						var targetPos:Point = new Point (ba.readFloat(), ba.readFloat());
-						var initScale:Number = ba.readFloat();
-						coloringData.push (new Array(imgRef, maskRef, initPos, targetPos, initScale));
+			for (var j:int = 0; j < availableGames; j++){
+				trace ('game parse', j);
+				var gameName:String = readVar(ba)[0];
+				var gameCode:int = readVar(ba)[0];
+				
+				var gameVars:int = readVar(ba)[0];
+				switch (gameCode){
+					case 0://coloring game data
+						var imagesInColoring:int = readVar(ba)[0];
+						var coloringData:Array = new Array();
+						coloringData.push (imagesInColoring);
+		
+						for (var i:int = 0; i < imagesInColoring; i++){
+							var imgRef:int = readVar(ba)[0];
+							var maskRef:int = readVar(ba)[0];
+							var word:String = readVar(ba)[0];
+							coloringData.push (new Array(imgRef, maskRef, word));
+							
+						}
+						keyData.push(gameCode, coloringData);
 						
-					}
-					keyData.push(gameCode, imagesInColoring, coloringData);
-					_loadedKeyData = keyData;
-				break;
+					break;
+						case 3://spyglass game data
+						var imagesInGame:int = readVar(ba)[0];
+						var gameData:Array = new Array();
+						gameData.push (imagesInGame);
+		
+						for (var i:int = 0; i < imagesInGame; i++){
+							var imgRef:int = readVar(ba)[0];
+							trace ('img ref', imgRef);
+							gameData.push (imgRef);
+							
+						}
+						keyData.push(gameCode, gameData);
+						
+					break;
+				}
 			}
+			_loadedKeyData = keyData;
 			//Parse Game Data End
 			//trace ('end', _loadedKeyData);
+			if (loadComplete == loaders.length){
+				dispatchEvent (new ResourceManagerEvent(ResourceManagerEvent.KEY_LOADED, _loadedKeyData));
+				
+			} else {
+				dataLoadComplete = true;
+			}
 			
-			dispatchEvent (new ResourceManagerEvent(ResourceManagerEvent.KEY_LOADED, _loadedKeyData));
 		}
 		
 		public function get loadedKeyData():Array{
 			return _loadedKeyData;
+		}
+		
+		private function readVar (ba:ByteArray):Array{
+			var arr:Array = new Array();
+			var varType:int = ba.readFloat();
+			trace (varType);
+			if (varType == 0){
+				//read number
+				var num:Number = ba.readFloat();
+				arr.push (num);
+			} else if (varType == 1){
+				//read string
+				var len:int = ba.readFloat();
+				var str:String = new String(ba.readUTFBytes(len));
+				arr.push (str);
+			}
+			trace ('returning', arr[0]);
+			return arr;
+		}
+		
+		private function loadCompleted (e:Event):void{
+			loadComplete++;
+			if ((loadComplete == loaders.length)&&(dataLoadComplete)){
+				dispatchEvent (new ResourceManagerEvent(ResourceManagerEvent.KEY_LOADED, _loadedKeyData));
+				
+			}
 		}
 
 	}

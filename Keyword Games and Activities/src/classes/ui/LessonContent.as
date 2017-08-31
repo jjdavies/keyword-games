@@ -3,6 +3,7 @@
 	import flash.display.MovieClip;
 	import game.Coloring;
 	import utils.GameEvent;
+	import com.greensock.TweenLite;
 	import flash.filesystem.File;
 	import flash.events.*;
 	import flash.utils.ByteArray;
@@ -15,10 +16,12 @@
 	public class LessonContent extends MovieClip{
 		
 		private var lessonContentBG:LessonContentBG;
+		private var gameBubbles:Array;
 		
 
 		public function LessonContent(launchFileURL:String = null) {
 			lessonContentBG = new LessonContentBG();
+			gameBubbles = new Array();
 			this.addChild (lessonContentBG);
 			
 			if (launchFileURL != null){
@@ -30,23 +33,27 @@
 		
 		public function updateLessonContent(loadedKeyData:Array){
 			
-			trace ('activities available', loadedKeyData.length-1);
+			trace ('activities available', loadedKeyData[2]);
 			
-			for (var i:int = 0; i < loadedKeyData.length-1; i++){
-				var s:Shape = new Shape ();
-				s.graphics.lineStyle(2, 0xFF00FF);
-				s.graphics.beginFill (0xDDDDDD);
-				s.graphics.drawRect(0,0,100,50);
-				s.graphics.endFill();
-				var mc:MovieClip = new MovieClip();
-				mc.addChild (s);
-				this.addChild (mc);
-				mc.addEventListener (MouseEvent.CLICK, gameClick);
+			for (var i:int = 0; i < loadedKeyData[2]; i++){
+				var bubble:BubbleForGame = new BubbleForGame();
+				gameBubbles.push (bubble);
+				bubble.x = -310 + ((bubble.width + 20)*i);
+				bubble.y = 50;
+				this.addChild (bubble);
+				TweenLite.from (bubble, 3, {x:bubble.x - 250, y:bubble.y - 250});
+				bubble.addEventListener (MouseEvent.CLICK, gameClick);
 			}
+			
+			
 		}
 		
 		private function gameClick (e:MouseEvent):void{
 			dispatchEvent (new GameEvent(GameEvent.GAME_SELECTION, "coloring"));
+		}
+		
+		private function gameClick2 (e:MouseEvent):void{
+			dispatchEvent (new GameEvent(GameEvent.GAME_SELECTION, "spyglass"));
 		}
 
 	}
