@@ -32,6 +32,8 @@
 		
 		private var reloadButton:ReloadButton;
 		private var menuButton:MenuButton;
+		
+		private var blackMC:MovieClip;
 
 		public function Coloring(loadedKeyData:Array){
 			transitioner = new Transitioner();
@@ -52,6 +54,16 @@
 			maskLayer.cacheAsBitmap = true;
 			shapeLayer = new MovieClip();
 			shapeLayer.cacheAsBitmap = true;
+			
+			var b:Shape = new Shape();
+			b.graphics.lineStyle(0,0x000000);
+			b.graphics.beginFill(0x000000);
+			b.graphics.drawRect (-540,-360, 1080, 720);
+			b.graphics.endFill();
+			blackMC = new MovieClip();
+			blackMC.addChild (b);
+			blackMC.x = 540;
+			blackMC.y = 360;
 			
 			crayons = new Crayons();
 			crayons.y = - crayons.height/2;
@@ -103,7 +115,9 @@
 		}
 		
 		private function reloadAll(e:MouseEvent):void{
-			transitioner.draw (this, this);
+			this.parent.addChild (blackMC);
+			transitioner.draw (blackMC,this);
+			
 			for (var i:int = 0; i < shapes.length; i++){
 				shapes[i].graphics.clear();
 			}

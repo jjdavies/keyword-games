@@ -48,7 +48,7 @@
 			}
 			
 			this.addChild (canvas);
-			canvas.mask = maskAll;
+			//canvas.mask = maskAll;
 		}
 		
 		private function keyFileLoadComplete(e:ResourceManagerEvent):void{
