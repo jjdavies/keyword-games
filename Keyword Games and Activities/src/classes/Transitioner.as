@@ -148,7 +148,7 @@
 					frameCount = 0;
 					drawingHand.removeEventListener (Event.ENTER_FRAME, arguments.callee);
 					TweenLite.to (drawingHand, .2, {alpha:0, onComplete:dispatchComplete, onCompleteParams:[new Array(drawingHand)]});
-					
+					incoming.mask = null;
 				}
 				var p:Point = new Point(drawingHand.hand.x, drawingHand.hand.y);
 				var locP:Point = drawingHand.globalToLocal (p);
@@ -156,8 +156,12 @@
 				globP.y += 200;
 				globP.x += 200;
 				maskShape.graphics.lineTo (globP.x, globP.y);
+				
 				if (bmp != null){
+					trace ('bmp is not null');
 					outgoing.parent.removeChild(bmp);
+				} else {
+					trace ('bmp is null');
 				}
 				var bd:BitmapData = new BitmapData(maskShape.width, maskShape.height, true, 0x00000000);
 				bd.draw (maskShape);

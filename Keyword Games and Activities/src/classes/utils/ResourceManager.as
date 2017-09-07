@@ -38,6 +38,8 @@
 			trace (lessonCode);
 			var numberOfImages:int = readVar(ba)[0];
 			var availableGames:int = readVar(ba)[0];
+			trace ('available games: ', availableGames);
+			trace ('available images: ', numberOfImages);
 			keyData.push (lessonCode, numberOfImages, availableGames);
 			var imgArr:Array = new Array();
 			for (var i:int = 0; i < numberOfImages; i++){
@@ -55,7 +57,6 @@
 				trace ('game parse', j);
 				var gameName:String = readVar(ba)[0];
 				var gameCode:int = readVar(ba)[0];
-				
 				var gameVars:int = readVar(ba)[0];
 				switch (gameCode){
 					case 0://coloring game data
@@ -64,16 +65,31 @@
 						coloringData.push (imagesInColoring);
 		
 						for (var i:int = 0; i < imagesInColoring; i++){
+							trace ('adding ', i);
 							var imgRef:int = readVar(ba)[0];
 							var maskRef:int = readVar(ba)[0];
 							var word:String = readVar(ba)[0];
 							coloringData.push (new Array(imgRef, maskRef, word));
-							
 						}
+						trace ('pushing to key data');
 						keyData.push(gameCode, coloringData);
+						trace ('added coloring game data: ', "code ", gameCode,"data",  coloringData);
 						
 					break;
-						case 3://spyglass game data
+						case 1://angry bugs game data
+						var imagesInGame:int = readVar(ba)[0];
+						var gameData:Array = new Array();
+						gameData.push (imagesInGame);
+		
+						for (var i:int = 0; i < imagesInGame; i++){
+							var imgRef:int = readVar(ba)[0];
+							trace ('img ref', imgRef);
+							gameData.push (imgRef);
+						}
+						keyData.push(gameCode, gameData);
+						
+					break;
+						case 2://pairs game data
 						var imagesInGame:int = readVar(ba)[0];
 						var gameData:Array = new Array();
 						gameData.push (imagesInGame);

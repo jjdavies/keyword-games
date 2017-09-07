@@ -5,6 +5,7 @@
 	import display.ImageWizard;
 	import flash.events.MouseEvent;
 	import com.greensock.TweenLite;
+	import utils.GameEvent;
 	
 	public class Coloring extends MovieClip{
 		
@@ -14,7 +15,8 @@
 		private var imgRefInd:Array;
 		private var imgMaskInd:Array;
 		private var imageWizard:ImageWizard;
-		private var drawingBG:DrawingBG;
+		private var drawingBG:GameBG;
+		private var gameOptions:GameOptions;
 		
 		private var gameImages:Array;
 		private var gameMasks:Array;
@@ -29,10 +31,11 @@
 		private var transitioner:Transitioner;
 		
 		private var reloadButton:ReloadButton;
+		private var menuButton:MenuButton;
 
 		public function Coloring(loadedKeyData:Array){
 			transitioner = new Transitioner();
-			drawingBG = new DrawingBG();
+			drawingBG = new GameBG();
 			this.addChild (drawingBG);
 			this.loadedKeyData = loadedKeyData;
 			this.numberOfGames = loadedKeyData[2];
@@ -51,14 +54,29 @@
 			shapeLayer.cacheAsBitmap = true;
 			
 			crayons = new Crayons();
-			crayons.y = -crayons.height/2;
+			crayons.y = - crayons.height/2;
 			this.addChild (crayons);
 			
 			reloadButton = new ReloadButton();
-			reloadButton.x = -300;
-			reloadButton.y = -reloadButton.height/2;
-			reloadButton.addEventListener (MouseEvent.CLICK, reloadAll);
+			menuButton = new MenuButton();
+			reloadButton.x = -75;
+			menuButton.x = 75;
+			reloadButton.scaleX = .5;
+			reloadButton.scaleY = .5;
+			menuButton.scaleX = .5;
+			menuButton.scaleY = .5;
+			reloadButton.y = -250;
+			menuButton.y = -250;
 			this.addChild (reloadButton);
+			this.addChild (menuButton);
+			reloadButton.addEventListener (MouseEvent.CLICK, reloadAll);
+			menuButton.addEventListener (MouseEvent.CLICK, menu);
+			
+			gameOptions = new GameOptions();
+			gameOptions.endButton.addEventListener (MouseEvent.CLICK, endGame);
+			
+			
+			
 			with (crayons){
 				crayonsArr = new Array(red, yellow, blue, green, orange, purple, brown, pink, black, white);
 			}
@@ -90,6 +108,15 @@
 				shapes[i].graphics.clear();
 			}
 			
+		}
+		
+		private function menu(e:MouseEvent):void{
+			this.addChild (gameOptions);
+		}
+		
+		private function endGame (e:MouseEvent):void{
+			this.removeChild (gameOptions);
+			dispatchEvent(new GameEvent(GameEvent.END_GAME));
 		}
 		
 		private function crayonClick (e:MouseEvent):void{
@@ -168,20 +195,24 @@
 			var imageDimensions:Point = new Point(0,0);
 			switch (numberOfImages){
 				case 1:
-					
+					imageDimensions.x = 270;
+					imageDimensions.y = 270;
 				break;
 				case 2:
-					
+					imageDimensions.x = 270;
+					imageDimensions.y = 270;
 				break;
 				case 3:
 					imageDimensions.x = 270;
 					imageDimensions.y = 270;
 				break;
 				case 4:
-					
+					imageDimensions.x = 270;
+					imageDimensions.y = 270;
 				break;
 				case 5:
-					
+					imageDimensions.x = 270;
+					imageDimensions.y = 270;
 				break;
 			}
 			for (var i:int = 0; i < numberOfImages; i++){

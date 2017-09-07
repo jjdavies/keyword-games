@@ -18,7 +18,7 @@
 -->
 <application xmlns="http://ns.adobe.com/air/application/23.0">
   <id>Keyword-Games-and-Activities</id>
-  <versionNumber>1.0</versionNumber>
+  <versionNumber>1.1</versionNumber>
   <filename>Keyword Games and Activities</filename>
   <description/>
   <name>Keyword Games and Activities</name>
@@ -31,8 +31,25 @@
     <fullScreen>false</fullScreen>
     <aspectRatio>portrait</aspectRatio>
     <renderMode>auto</renderMode>
+    <maximizable>true</maximizable>
+    <minimizable>true</minimizable>
+    <resizable>true</resizable>
   </initialWindow>
-  <icon/>
+  <icon>
+    <image128x128>AppIconsForPublish/128logo.png</image128x128>
+  </icon>
   <customUpdateUI>false</customUpdateUI>
   <allowBrowserInvocation>false</allowBrowserInvocation>
+  <fileTypes>
+    <fileType>
+      <name>Keyword</name>
+      <extension>key</extension>
+      <description>Keyword File</description>
+      <contentType>images, game data</contentType>
+      <icon>
+        <image128x128>FileTypeIconsForAIRPublish/128logo.png</image128x128>
+      </icon>
+    </fileType>
+  </fileTypes>
+  <supportedProfiles>desktop extendedDesktop </supportedProfiles>
 </application>

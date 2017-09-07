@@ -16,6 +16,7 @@
 	public class LessonContent extends MovieClip{
 		
 		private var lessonContentBG:LessonContentBG;
+		private var classContentTitle:ScrollTitle;
 		private var gameBubbles:Array;
 		
 
@@ -23,20 +24,39 @@
 			lessonContentBG = new LessonContentBG();
 			gameBubbles = new Array();
 			this.addChild (lessonContentBG);
+			this.addEventListener (Event.ADDED_TO_STAGE, addedContent);
+			classContentTitle = new ScrollTitle();
+			var className:String = new String();
+			var launchFileArr:Array = launchFileURL.split("\\");
+			className = launchFileArr[launchFileArr.length-1];
+			classContentTitle.className.text = className.substr(0, 7);
+			classContentTitle.y = -200;
+			this.addChild (classContentTitle);
 			
 			if (launchFileURL != null){
 				
 			}
-			trace ('lesson content');
 			
+		}
+		
+		private function addedContent (e:Event):void{
+			this.removeEventListener (Event.ADDED_TO_STAGE, addedContent);
+			this.addEventListener (Event.REMOVED_FROM_STAGE, removedContent);
+			this.lessonContentBG.play();
+		}
+		
+		private function removedContent (e:Event):void{
+			this.addEventListener (Event.ADDED_TO_STAGE, addedContent);
+			this.removeEventListener (Event.REMOVED_FROM_STAGE, removedContent);
+			this.lessonContentBG.stop();
 		}
 		
 		public function updateLessonContent(loadedKeyData:Array){
 			
-			trace ('activities available', loadedKeyData[2]);
-			
 			for (var i:int = 0; i < loadedKeyData[2]; i++){
 				var bubble:BubbleForGame = new BubbleForGame();
+				var gameInt:int = loadedKeyData[4 + (i*2)];
+				bubble.gotoAndStop(gameInt + 1);
 				gameBubbles.push (bubble);
 				bubble.x = -310 + ((bubble.width + 20)*i);
 				bubble.y = 50;
@@ -45,15 +65,21 @@
 				bubble.addEventListener (MouseEvent.CLICK, gameClick);
 			}
 			
-			
 		}
 		
 		private function gameClick (e:MouseEvent):void{
-			dispatchEvent (new GameEvent(GameEvent.GAME_SELECTION, "coloring"));
-		}
-		
-		private function gameClick2 (e:MouseEvent):void{
-			dispatchEvent (new GameEvent(GameEvent.GAME_SELECTION, "spyglass"));
+			switch (e.currentTarget.currentFrame){
+				case 1:
+					dispatchEvent (new GameEvent(GameEvent.GAME_SELECTION, "coloring"));
+				break;
+				case 2:
+					dispatchEvent (new GameEvent(GameEvent.GAME_SELECTION, "angry-bugs"));
+				break;
+				case 3:
+					dispatchEvent (new GameEvent(GameEvent.GAME_SELECTION, "wolf-game"));
+				break;
+			}
+			
 		}
 
 	}
