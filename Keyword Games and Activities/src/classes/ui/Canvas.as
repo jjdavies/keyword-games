@@ -17,6 +17,7 @@
 		//C:\Users\1\Documents\GitHub\keyword-games\Keyword Games and Activities\bin\key
 
 		public function Canvas(launchFileURL:String = null) {
+			trace ('1');
 			transitioner = new Transitioner();
 			var defaultCanvasBG:CanvasBG = new CanvasBG();
 			currentGame = new Array();
@@ -56,9 +57,14 @@
 				transitioner.fade (lessonContent, wolfGame, false);
 				wolfGame.addEventListener (GameEvent.END_GAME, endGame);
 				currentGame.push (wolfGame);
-			}
+			} else if (e.select == "angryBugsGame"){
+				var angryBugsGame:AngryBugsGame = new AngryBugsGame(loadedKeyData);
+				transitioner.fade (lessonContent, wolfGame, false);
+				angryBugsGame.addEventListener (GameEvent.END_GAME, endGame);
+				currentGame.push (wolfGame);
 			
 		}
+	}
 		
 		private function endGame (e:GameEvent):void{
 			trace ('end game');
