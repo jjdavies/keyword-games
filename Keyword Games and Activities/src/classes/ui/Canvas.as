@@ -45,7 +45,7 @@
 				transitioner.fade (lessonContent, spyglassGame, true, 0x00FF00);
 			} else if (e.select == "coloring"){
 				var game2:Coloring = new Coloring(loadedKeyData);
-				transitioner.draw (lessonContent, game2);
+				transitioner.fade (lessonContent, game2, false);
 				game2.addEventListener (GameEvent.END_GAME, endGame);
 				currentGame.push (game2);
 			} else if (e.select == "interactiveBody"){
