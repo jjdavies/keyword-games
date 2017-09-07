@@ -67,7 +67,8 @@
 	}
 		
 		private function endGame (e:GameEvent):void{
-			trace ('end game');
+			trace ('James rules');
+			trace ('unique');
 			var index:int = currentGame.indexOf (e.currentTarget);
 			transitioner.slide (currentGame[index], lessonContent, "up");
 			currentGame.slice (0);
