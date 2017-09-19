@@ -73,7 +73,7 @@
 					dispatchEvent (new GameEvent(GameEvent.GAME_SELECTION, "coloring"));
 				break;
 				case 2:
-					dispatchEvent (new GameEvent(GameEvent.GAME_SELECTION, "angry-bugs"));
+					dispatchEvent (new GameEvent(GameEvent.GAME_SELECTION, "angryBugsGame"));
 				break;
 				case 3:
 					dispatchEvent (new GameEvent(GameEvent.GAME_SELECTION, "wolf-game"));

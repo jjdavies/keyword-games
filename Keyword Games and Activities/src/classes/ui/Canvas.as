@@ -13,7 +13,7 @@
 		private var currentGame:Array;
 		
 		//temp
-		private var testLaunchURL:String = "C:/Users/1/Documents/GitHub/keyword-games/Keyword Games and Activities/bin/key/BF2U1L1.key";
+		private var testLaunchURL:String = "C:/Users/asus/Documents/GitHub/keyword-games/Keyword Games and Activities/BF1U1L1.key";
 		//C:\Users\1\Documents\GitHub\keyword-games\Keyword Games and Activities\bin\key
 
 		public function Canvas(launchFileURL:String = null) {
@@ -59,9 +59,9 @@
 				currentGame.push (wolfGame);
 			} else if (e.select == "angryBugsGame"){
 				var angryBugsGame:AngryBugsGame = new AngryBugsGame(loadedKeyData);
-				transitioner.fade (lessonContent, wolfGame, false);
+				transitioner.fade (lessonContent, angryBugsGame, false);
 				angryBugsGame.addEventListener (GameEvent.END_GAME, endGame);
-				currentGame.push (wolfGame);
+				currentGame.push (angryBugsGame);
 			
 		}
 	}
