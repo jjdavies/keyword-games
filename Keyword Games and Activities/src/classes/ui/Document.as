@@ -14,7 +14,7 @@
 		private var canvas:Canvas;
 		private var resourceManager:ResourceManager;
 		//temp
-		private var testLaunchURL:String = "C:/Users/1/Documents/GitHub/keyword-games/Keyword Games and Activities/bin/key/BF1U1L2.key";
+		private var testLaunchURL:String = "C:/Users/asus/Documents/GitHub/keyword-games/Keyword Games and Activities/bin/key/BF1U1L1.key";
 		//
 
 		public function Document() {
