@@ -35,7 +35,7 @@
 			
 			}
 			trace (packedByteArray.length);
-			var file:File = new File ("C:/Users/1/Documents/GitHub/keyword-games/Keyword Games and Activities/aa.key");
+			var file:File = new File ("C:/Users/asua/Documents/GitHub/keyword-games/Keyword Games and Activities/BF1U1L1.key");
 			var fileStream:FileStream = new FileStream();
 			//fileStream.addEventListener (Event.CLOSE, fileSaved);
 			fileStream.openAsync (file, FileMode.WRITE);
