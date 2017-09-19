@@ -58,13 +58,22 @@
 				wolfGame.addEventListener (GameEvent.END_GAME, endGame);
 				currentGame.push (wolfGame);
 			} else if (e.select == "angryBugsGame"){
-				var angryBugsGame:AngryBugsGame = new AngryBugsGame(loadedKeyData);
-				transitioner.fade (lessonContent, wolfGame, false);
-				angryBugsGame.addEventListener (GameEvent.END_GAME, endGame);
-				currentGame.push (wolfGame);
-			
+				//var angryBugsGame:AngryBugsGame = new AngryBugsGame(loadedKeyData);
+				//transitioner.fade (lessonContent, wolfGame, false);
+				//angryBugsGame.addEventListener (GameEvent.END_GAME, endGame);
+				//currentGame.push (wolfGame);
+			} else if (e.select == "balloon-game"){
+				var balloonGame:BalloonGame = new BalloonGame(loadedKeyData);
+				transitioner.fade (lessonContent, balloonGame, false);
+				balloonGame.addEventListener (GameEvent.END_GAME, endGame);
+				currentGame.push (balloonGame);
+			} else if (e.select == "missing-game"){
+				var missingGame:MissingGame = new MissingGame(loadedKeyData);
+				transitioner.fade (lessonContent, missingGame, false);
+				missingGame.addEventListener (GameEvent.END_GAME, endGame);
+				currentGame.push (missingGame);
+			}
 		}
-	}
 		
 		private function endGame (e:GameEvent):void{
 			trace ('James rules');

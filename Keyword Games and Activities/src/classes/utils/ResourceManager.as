@@ -14,6 +14,7 @@
 		private var loaders:Array;
 		private var loadComplete:int;
 		private var dataLoadComplete:Boolean;
+		private var localURL:String;
 		
 
 		public function ResourceManager(){
@@ -27,6 +28,9 @@
 			var file:File = new File (keyURL);
 			file.addEventListener (Event.COMPLETE, parseData);
 			file.load();
+			
+			var file2:File = File.applicationDirectory;
+			localURL = new String(file2.url + "\\bin\\img\\");
 		}
 		
 		private function parseData (e:Event):void{
@@ -45,7 +49,12 @@
 			for (var i:int = 0; i < numberOfImages; i++){
 				
 				var l:Loader = new Loader();
-				var url:URLRequest = new URLRequest (readVar(ba)[0]);
+				var str:String = readVar(ba)[0];
+				var strArr:Array = str.split("\\");
+				var str2:String = strArr[strArr.length-1];
+				var str3:String = new String(localURL + str2);
+				
+				var url:URLRequest = new URLRequest (str3);
 				l.contentLoaderInfo.addEventListener (Event.COMPLETE, loadCompleted);
 				loaders.push (l);
 				l.load (url);
@@ -58,6 +67,7 @@
 				var gameName:String = readVar(ba)[0];
 				var gameCode:int = readVar(ba)[0];
 				var gameVars:int = readVar(ba)[0];
+				trace ('next game is ', gameName, 'code is ', gameCode, ' gameVars: ', gameVars);
 				switch (gameCode){
 					case 0://coloring game data
 						var imagesInColoring:int = readVar(ba)[0];
@@ -68,40 +78,84 @@
 							trace ('adding ', i);
 							var imgRef:int = readVar(ba)[0];
 							var maskRef:int = readVar(ba)[0];
-							var word:String = readVar(ba)[0];
-							coloringData.push (new Array(imgRef, maskRef, word));
+							//var word:String = readVar(ba)[0];
+							coloringData.push (new Array(imgRef, maskRef));
 						}
 						trace ('pushing to key data');
 						keyData.push(gameCode, coloringData);
 						trace ('added coloring game data: ', "code ", gameCode,"data",  coloringData);
 						
 					break;
-						case 1://angry bugs game data
-						var imagesInGame:int = readVar(ba)[0];
-						var gameData:Array = new Array();
-						gameData.push (imagesInGame);
-		
-						for (var i:int = 0; i < imagesInGame; i++){
-							var imgRef:int = readVar(ba)[0];
-							trace ('img ref', imgRef);
-							gameData.push (imgRef);
-						}
-						keyData.push(gameCode, gameData);
-						
+					case 1://angry bugs game data
+					var imagesInGame:int = readVar(ba)[0];
+					var gameData:Array = new Array();
+					gameData.push (imagesInGame);
+	
+					for (var i:int = 0; i < imagesInGame; i++){
+						var imgRef:int = readVar(ba)[0];
+						trace ('img ref', imgRef);
+						gameData.push (imgRef);
+					}
+					keyData.push(gameCode, gameData);
+					
 					break;
-						case 2://pairs game data
-						var imagesInGame:int = readVar(ba)[0];
-						var gameData:Array = new Array();
-						gameData.push (imagesInGame);
-		
-						for (var i:int = 0; i < imagesInGame; i++){
-							var imgRef:int = readVar(ba)[0];
-							trace ('img ref', imgRef);
-							gameData.push (imgRef);
-							
-						}
-						keyData.push(gameCode, gameData);
+					case 2://pairs game data
+					var imagesInGame:int = readVar(ba)[0];
+					trace ('images in wolf game', imagesInGame);
+					var gameData:Array = new Array();
+					gameData.push (imagesInGame);
+	
+					for (var i:int = 0; i < imagesInGame; i++){
+						trace (i, 'th image');
+						var imgRef:int = readVar(ba)[0];
+						trace ('img ref', imgRef);
+						gameData.push (imgRef);
 						
+					}
+					keyData.push(gameCode, gameData);
+					
+					break;
+					case 3://balloon game data
+					var imagesInGame:int = readVar(ba)[0];
+					var gameData:Array = new Array();
+					gameData.push (imagesInGame);
+	
+					for (var i:int = 0; i < imagesInGame; i++){
+						var imgRef:int = readVar(ba)[0];
+						trace ('img ref', imgRef);
+						gameData.push (imgRef);
+						
+					}
+					keyData.push(gameCode, gameData);
+					
+					break;
+					case 4://balloon game data
+					var imagesInGame:int = readVar(ba)[0];
+					var gameData:Array = new Array();
+					gameData.push (imagesInGame);
+	
+					for (var i:int = 0; i < imagesInGame; i++){
+						var imgRef:int = readVar(ba)[0];
+						trace ('img ref', imgRef);
+						gameData.push (imgRef);
+						
+					}
+					keyData.push(gameCode, gameData);
+					
+					break;
+					case 5://balloon game data
+					var imagesInGame:int = readVar(ba)[0];
+					var gameData:Array = new Array();
+					gameData.push (imagesInGame);
+	
+					for (var i:int = 0; i < imagesInGame; i++){
+						var imgRef:int = readVar(ba)[0];
+						trace ('img ref', imgRef);
+						gameData.push (imgRef);
+						
+					}
+					keyData.push(gameCode, gameData);
+					
 					break;
 				}
 			}

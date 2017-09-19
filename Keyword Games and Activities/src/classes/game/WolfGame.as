@@ -153,7 +153,7 @@
 		private function uniqueIntGenerator():Array{
 			var arr:Array = new Array();
 			for (var i:int = 0; i < 1; i=i){
-				var r:int = Math.random() * 5;
+				var r:int = Math.random() * numberOfImages;
 				var index:int = arr.indexOf (r);
 				if (index == -1){
 					arr.push (r);

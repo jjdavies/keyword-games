@@ -52,18 +52,44 @@
 		}
 		
 		public function updateLessonContent(loadedKeyData:Array){
+			var startIndex:int = 0;
 			
-			for (var i:int = 0; i < loadedKeyData[2]; i++){
+			if (loadedKeyData[2] > 5){
+				for (var i:int = 0; i < 5; i++){
+					var bubble:BubbleForGame = new BubbleForGame();
+					var gameInt:int = loadedKeyData[4 + (i*2)];
+					bubble.gotoAndStop(gameInt + 1);
+					gameBubbles.push (bubble);
+					bubble.x = -420 + ((1040/5) * i);
+					bubble.y = -60;
+					this.addChild (bubble);
+					TweenLite.from (bubble, 3, {x:bubble.x - 250, y:bubble.y - 250});
+					bubble.addEventListener (MouseEvent.CLICK, gameClick);
+				}
+				startIndex = 5;
+			}
+			var remainingLessons:int = loadedKeyData[2] - startIndex;
+			var middleInt:Number =  (remainingLessons/2) - .5;
+			
+			
+			for (var j:int = startIndex; j < loadedKeyData[2]; j++){
 				var bubble:BubbleForGame = new BubbleForGame();
-				var gameInt:int = loadedKeyData[4 + (i*2)];
+				var gameInt:int = loadedKeyData[4 + (j*2)];
 				bubble.gotoAndStop(gameInt + 1);
 				gameBubbles.push (bubble);
-				bubble.x = -310 + ((bubble.width + 20)*i);
-				bubble.y = 50;
+				trace (middleInt, j,  (206 * ((j - startIndex) - middleInt)), gameInt);
+					bubble.x = (206 * ((j - startIndex) - middleInt));
+				
+				bubble.y = -60;
+				if (startIndex != 0){
+					bubble.y = 206;
+				}
 				this.addChild (bubble);
 				TweenLite.from (bubble, 3, {x:bubble.x - 250, y:bubble.y - 250});
 				bubble.addEventListener (MouseEvent.CLICK, gameClick);
 			}
+			
+			
 			
 		}
 		
@@ -77,6 +103,12 @@
 				break;
 				case 3:
 					dispatchEvent (new GameEvent(GameEvent.GAME_SELECTION, "wolf-game"));
+				break;
+				case 4:
+					dispatchEvent (new GameEvent(GameEvent.GAME_SELECTION, "balloon-game"));
+				break;
+				case 5:
+					dispatchEvent (new GameEvent(GameEvent.GAME_SELECTION, "missing-game"));
 				break;
 			}
 			

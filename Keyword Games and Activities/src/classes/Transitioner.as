@@ -55,7 +55,7 @@
 			}
 			TweenLite.to (outgoing, 1, {x:targetPointOutgoing.x, y:targetPointOutgoing.y});
 			if (onComplete == null){
-				TweenLite.fromTo(incoming, 1, {x:targetPointIncomingA.x, y:targetPointIncomingA.y}, {x:targetPointIncomingB.x, y:targetPointIncomingB.y, onComplete:dispatchComplete});
+				TweenLite.fromTo(incoming, 1, {x:targetPointIncomingA.x, y:targetPointIncomingA.y}, {x:targetPointIncomingB.x, y:targetPointIncomingB.y, onComplete:dispatchComplete, onCompleteParams:[new Array(outgoing)]});
 			}else{
 				TweenLite.fromTo(incoming, 1, {x:targetPointIncomingA.x, y:targetPointIncomingA.y}, {x:targetPointIncomingB.x, y:targetPointIncomingB.y, onComplete:runCompleteFunc, onCompleteParams:[onComplete]});
 			}
