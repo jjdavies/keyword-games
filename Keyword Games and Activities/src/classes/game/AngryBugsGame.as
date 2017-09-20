@@ -27,7 +27,9 @@
 	private var images:Array;
 	private var uniqueInts:Array;
 	private var basket:Basket;
-	
+	private var gameOptions:GameOptions;
+	private var menuButton:MenuButton;
+	private var reloadButton:ReloadButton;
 	
 		
 		public function AngryBugsGame(loadedKeyData:Array) {
@@ -35,11 +37,13 @@
 			imageRefs = new Array();
 			imgArr = new Array();
 			images = new Array();
+			gameOptions = new GameOptions();
+			menuButton = new MenuButton();
+			reloadButton = new ReloadButton();
 			//add at least 4 bug images into the library
 			var bug1 = new Bug1();
 			var slingshot = new Slingshot();
 			basket = new Basket();
-			var reset = new Reset();
 			var newBug = new NewBug();
 			angryBugsArr = new Array(bug1);
 			angryBugs = new MovieClip;
@@ -62,21 +66,26 @@
 			slingshot.scaleY = 1.5; 
 			slingshot.x = -240;
 			slingshot.y = 170;
-			//this.addChild (basket); //add a basket to the library
-			//basket.scaleX = 2;
-			//basket.scaleY = 2;
-			//basket.x = -265;
-			//basket.y = -133;
-			this.addChild(reset);//add a reset button to the library
-			reset.x = -4;
-			reset.y = -251;
+			this.addChild (reloadButton);
+			reloadButton.x = -20;
+			reloadButton.y = -251;
+			reloadButton.scaleX = .5;
+			reloadButton.scaleY = .5;
+			this.addChild (menuButton);
+			menuButton.x = 80;
+			menuButton.y = -251;
+			menuButton.scaleX = .5;
+			menuButton.scaleY = .5;
 			this.addChild (newBug); //add newBug button and set coordinates for it
 			newBug.x = -265;
 			newBug.y = 70;
-		
 			
+			
+			reloadButton.addEventListener (MouseEvent.CLICK, resetGame);
+			menuButton.addEventListener (MouseEvent.CLICK, menu);
+			gameOptions.endButton.addEventListener (MouseEvent.CLICK, endGame);
 			newBug.addEventListener(MouseEvent.MOUSE_DOWN,addNewBug);
-			reset.addEventListener (MouseEvent.MOUSE_DOWN, resetGame);
+			
 			
 			
 			
@@ -91,6 +100,15 @@
 				images.push(mc);
 				trace (mc);
 			}
+		}
+		
+		private function menu(e:MouseEvent):void {
+			this.addChild (gameOptions);
+		}
+		
+		private function endGame(e:MouseEvent):void {
+			this.removeChild (gameOptions);
+			dispatchEvent(new GameEvent(GameEvent.END_GAME));
 		}
 		
 		
